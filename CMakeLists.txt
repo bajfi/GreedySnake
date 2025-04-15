@@ -15,6 +15,9 @@ enable_testing()
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 
+# Find SFML components for graphical rendering
+find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
+
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -52,7 +55,10 @@ endif()
 
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${CURSES_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} 
+    ${CURSES_LIBRARIES}
+    sfml-system sfml-window sfml-graphics sfml-audio
+)
 
 # Add Google Test
 include(FetchContent)
@@ -84,6 +90,7 @@ target_link_libraries(
   run_tests
   GTest::gtest_main
   ${CURSES_LIBRARIES}
+  sfml-system sfml-window sfml-graphics sfml-audio
 )
 
 include(GoogleTest)
