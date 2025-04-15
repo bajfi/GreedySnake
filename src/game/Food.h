@@ -32,13 +32,13 @@ class Food
      * @brief Get current position of food
      * @return Position of the food
      */
-    Position getPosition() const;
+    [[nodiscard]] Position getPosition() const;
 
     /**
      * @brief Get value/points of current food
      * @return Point value of the food
      */
-    int getValue() const;
+    [[nodiscard]] int getValue() const;
 
   private:
     Position position;

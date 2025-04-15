@@ -58,31 +58,31 @@ class Game
      * @brief Check if game is over
      * @return True if game is over
      */
-    bool isGameOver() const;
+    [[nodiscard]] bool isGameOver() const;
 
     /**
      * @brief Get current score
      * @return Current score
      */
-    int getScore() const;
+    [[nodiscard]] int getScore() const;
 
     /**
      * @brief Get the game board
      * @return Reference to the game board
      */
-    const Board& getBoard() const;
+    [[nodiscard]] const Board& getBoard() const;
 
     /**
      * @brief Get the snake
      * @return Reference to the snake
      */
-    const Snake& getSnake() const;
+    [[nodiscard]] const Snake& getSnake() const;
 
     /**
      * @brief Get the food
      * @return Reference to the food
      */
-    const Food& getFood() const;
+    [[nodiscard]] const Food& getFood() const;
 
     /**
      * @brief Pause the game
@@ -98,7 +98,7 @@ class Game
      * @brief Check if the game is paused
      * @return True if game is paused
      */
-    bool isPaused() const;
+    [[nodiscard]] bool isPaused() const;
 
     /**
      * @brief Process a key press

@@ -42,13 +42,13 @@ class MainMenuState : public GameState
      * @brief Get the number of menu items for testing
      * @return Number of menu items
      */
-    size_t getMenuItemCount() const;
+    [[nodiscard]] size_t getMenuItemCount() const;
 
     /**
      * @brief Get the selected menu item index for testing
      * @return Selected menu item index
      */
-    size_t getSelectedIndex() const;
+    [[nodiscard]] size_t getSelectedIndex() const;
 
   private:
     GameStateManager* stateManager;

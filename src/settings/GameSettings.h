@@ -25,7 +25,7 @@ class GameSettings
      * @brief Get the current game speed (1-10 scale)
      * @return The game speed value
      */
-    int getGameSpeed() const;
+    [[nodiscard]] int getGameSpeed() const;
 
     /**
      * @brief Set the game speed
@@ -37,7 +37,7 @@ class GameSettings
      * @brief Get the width of the game board
      * @return The board width
      */
-    int getBoardWidth() const;
+    [[nodiscard]] int getBoardWidth() const;
 
     /**
      * @brief Set the width of the game board
@@ -49,7 +49,7 @@ class GameSettings
      * @brief Get the height of the game board
      * @return The board height
      */
-    int getBoardHeight() const;
+    [[nodiscard]] int getBoardHeight() const;
 
     /**
      * @brief Set the height of the game board
@@ -61,7 +61,7 @@ class GameSettings
      * @brief Check if border collisions are enabled
      * @return True if borders are enabled, false otherwise
      */
-    bool hasBorders() const;
+    [[nodiscard]] bool hasBorders() const;
 
     /**
      * @brief Enable or disable border collisions
@@ -73,7 +73,7 @@ class GameSettings
      * @brief Check if sound is enabled
      * @return True if sound is enabled, false otherwise
      */
-    bool isSoundEnabled() const;
+    [[nodiscard]] bool isSoundEnabled() const;
 
     /**
      * @brief Enable or disable sound
@@ -86,7 +86,7 @@ class GameSettings
      * @param filename The file to save settings to
      * @return True if successful, false otherwise
      */
-    bool saveToFile(const std::string& filename = "settings.ini") const;
+    [[nodiscard]] bool saveToFile(const std::string& filename = "settings.ini") const;
 
     /**
      * @brief Load settings from a file
@@ -109,7 +109,7 @@ class GameSettings
      * @param max The maximum allowed value
      * @return The clamped value
      */
-    int clamp(int value, int min, int max) const;
+    [[nodiscard]] int clamp(int value, int min, int max) const;
 };
 
 } // namespace GreedySnake

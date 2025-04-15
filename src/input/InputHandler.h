@@ -26,7 +26,7 @@ class InputHandler
      * @brief Check if the user has requested to quit game
      * @return True if quit requested
      */
-    bool isQuitRequested() const;
+    [[nodiscard]] bool isQuitRequested() const;
 
     /**
      * @brief Process a key press

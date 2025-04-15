@@ -27,7 +27,7 @@ class ToggleMenuItem : public MenuItem
     void toggle();
 
     // Get the current state
-    bool isToggled() const
+    [[nodiscard]] bool isToggled() const
     {
         return state;
     }

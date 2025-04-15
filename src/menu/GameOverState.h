@@ -41,7 +41,7 @@ class GameOverState : public GameState
      * @brief Get the final score for testing
      * @return Final score
      */
-    int getFinalScore() const;
+    [[nodiscard]] int getFinalScore() const;
 
   private:
     GameStateManager* stateManager;

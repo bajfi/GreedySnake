@@ -57,7 +57,7 @@ class Renderer
      * @brief Check if the render window is still open
      * @return True if the window is open
      */
-    virtual bool isWindowOpen() const = 0;
+    [[nodiscard]] virtual bool isWindowOpen() const = 0;
 
     /**
      * @brief Handle input events from the window system for a Game object

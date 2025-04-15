@@ -46,7 +46,7 @@ class SettingsMenuState : public GameState
      * @brief Get the number of menu items for testing
      * @return Number of menu items
      */
-    size_t getMenuItemCount() const;
+    [[nodiscard]] size_t getMenuItemCount() const;
 
     /**
      * @brief Get the temporary settings object for testing purposes

@@ -43,19 +43,19 @@ class GamePlayState : public GameState
      * @brief Check if the game is paused
      * @return True if paused, false otherwise
      */
-    bool isPaused() const;
+    [[nodiscard]] bool isPaused() const;
 
     /**
      * @brief Check if the game is over
      * @return True if game is over, false otherwise
      */
-    bool isGameOver() const;
+    [[nodiscard]] bool isGameOver() const;
 
     /**
      * @brief Get the current score
      * @return Current score
      */
-    int getScore() const;
+    [[nodiscard]] int getScore() const;
 
   private:
     GameStateManager* stateManager;

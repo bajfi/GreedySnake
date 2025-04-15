@@ -25,14 +25,14 @@ class Board
      * @param position Position to check
      * @return True if position is within bounds
      */
-    bool isWithinBounds(const Position& position) const;
+    [[nodiscard]] bool isWithinBounds(const Position& position) const;
 
     /**
      * @brief Get cell type at the specified position
      * @param position Position to check
      * @return Cell type at the position (WALL if out of bounds)
      */
-    CellType getCellType(const Position& position) const;
+    [[nodiscard]] CellType getCellType(const Position& position) const;
 
     /**
      * @brief Set cell type at the specified position
@@ -46,13 +46,13 @@ class Board
      * @brief Get the board width
      * @return Width of the board
      */
-    int getWidth() const;
+    [[nodiscard]] int getWidth() const;
 
     /**
      * @brief Get the board height
      * @return Height of the board
      */
-    int getHeight() const;
+    [[nodiscard]] int getHeight() const;
 
     /**
      * @brief Reset board to initial state

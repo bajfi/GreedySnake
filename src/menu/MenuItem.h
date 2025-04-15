@@ -19,13 +19,13 @@ class MenuItem
     virtual ~MenuItem() = default;
 
     // Get the label of the menu item
-    std::string getLabel() const
+    [[nodiscard]] std::string getLabel() const
     {
         return label;
     }
 
     // Check if the menu item is currently selected
-    bool isSelected() const
+    [[nodiscard]] bool isSelected() const
     {
         return selected;
     }
@@ -43,7 +43,7 @@ class MenuItem
     }
 
     // Check if the menu item can be selected
-    virtual bool isSelectable() const
+    [[nodiscard]] virtual bool isSelectable() const
     {
         return true;
     }

@@ -32,19 +32,19 @@ class SliderMenuItem : public MenuItem
     void decrement();
 
     // Get the current value
-    int getValue() const
+    [[nodiscard]] int getValue() const
     {
         return currentValue;
     }
 
     // Get the minimum value
-    int getMinValue() const
+    [[nodiscard]] int getMinValue() const
     {
         return minValue;
     }
 
     // Get the maximum value
-    int getMaxValue() const
+    [[nodiscard]] int getMaxValue() const
     {
         return maxValue;
     }

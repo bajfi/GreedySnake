@@ -3,12 +3,14 @@
 Checks: '-*,
          readability-function-size,
          readability-redundant-preprocessor,
+         readability-implicit-bool-conversion,
+         readability-make-member-function-const,
          modernize-use-nullptr,
          modernize-use-override,
+         modernize-use-nodiscard,
          bugprone-unused-return-value,
          bugprone-not-null-terminated-result,
-         performance-*,
-         -readability-redundant-access-specifiers'
+         performance-*'
 
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'

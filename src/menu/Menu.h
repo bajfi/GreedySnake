@@ -87,25 +87,25 @@ class Menu
      * @brief Get the currently selected item
      * @return Shared pointer to the selected item
      */
-    std::shared_ptr<MenuItem> getSelectedItem() const;
+    [[nodiscard]] std::shared_ptr<MenuItem> getSelectedItem() const;
 
     /**
      * @brief Get the number of items in the menu
      * @return Number of items
      */
-    size_t getItemCount() const;
+    [[nodiscard]] size_t getItemCount() const;
 
     /**
      * @brief Get the index of the selected item
      * @return Selected index
      */
-    size_t getSelectedIndex() const;
+    [[nodiscard]] size_t getSelectedIndex() const;
 
     /**
      * @brief Get a list of menu item texts
      * @return Vector of strings containing menu item texts
      */
-    std::vector<std::string> getMenuItems() const;
+    [[nodiscard]] std::vector<std::string> getMenuItems() const;
 
   private:
     std::vector<std::shared_ptr<MenuItem>> items;

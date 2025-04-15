@@ -25,7 +25,7 @@ class MockRenderer : public Renderer
                     size_t selectedIndex) override
     {
     }
-    bool isWindowOpen() const override
+    [[nodiscard]] bool isWindowOpen() const override
     {
         return true;
     }

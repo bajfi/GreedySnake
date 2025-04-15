@@ -48,26 +48,26 @@ class Snake
      * @brief Get position of snake's head
      * @return Position of the head
      */
-    Position getHead() const;
+    [[nodiscard]] Position getHead() const;
 
     /**
      * @brief Get positions of all snake body segments
      * @return Vector of positions
      */
-    const std::vector<Position>& getBody() const;
+    [[nodiscard]] const std::vector<Position>& getBody() const;
 
     /**
      * @brief Check if snake has collided with itself
      * @return True if any body segment overlaps with the head
      */
-    bool checkSelfCollision() const;
+    [[nodiscard]] bool checkSelfCollision() const;
 
     /**
      * @brief Check if a position is part of the snake's body
      * @param position Position to check
      * @return True if position is part of the snake
      */
-    bool containsPosition(const Position& position) const;
+    [[nodiscard]] bool containsPosition(const Position& position) const;
 
     /**
      * @brief Reset snake to initial state
@@ -78,7 +78,7 @@ class Snake
      * @brief Get the current direction of the snake
      * @return Current direction
      */
-    Direction getCurrentDirection() const;
+    [[nodiscard]] Direction getCurrentDirection() const;
 
   private:
     std::vector<Position> body;

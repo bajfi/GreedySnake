@@ -19,7 +19,7 @@ class MockRenderer : public Renderer
     void render(const Game& game) override
     {
     }
-    bool isWindowOpen() const override
+    [[nodiscard]] bool isWindowOpen() const override
     {
         return true;
     }

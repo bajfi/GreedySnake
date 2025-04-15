@@ -34,7 +34,7 @@ class GameStateManager
     void popState();
 
     // Check if there's an active state
-    bool hasActiveState() const;
+    [[nodiscard]] bool hasActiveState() const;
 
     // Forward input events to the current state
     void processInput(Input input);
@@ -46,7 +46,7 @@ class GameStateManager
     void render(Renderer& renderer);
 
     // Get the owner application object
-    GameApp* getOwner() const
+    [[nodiscard]] GameApp* getOwner() const
     {
         return owner;
     }
