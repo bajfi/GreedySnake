@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 #include <string>
+#include <vector>
 
 namespace GreedySnake
 {
@@ -45,17 +46,34 @@ class SFMLRenderer : public Renderer
     void render(const Game& game) override;
 
     /**
+     * @brief Render a menu with title and items
+     * @param title The title to display
+     * @param items List of menu items to display
+     * @param selectedIndex Index of the currently selected item
+     */
+    void renderMenu(const std::string& title,
+                    const std::vector<std::string>& items,
+                    size_t selectedIndex) override;
+
+    /**
      * @brief Check if the SFML window is still open
      * @return True if the window is open
      */
     bool isWindowOpen() const override;
 
     /**
-     * @brief Process SFML window events and input
+     * @brief Process SFML window events and input for a Game object
      * @param game Reference to the game for processing input
      * @return True if the game should continue running
      */
     bool handleEvents(Game& game) override;
+
+    /**
+     * @brief Process SFML window events and input
+     * @param input Reference to input enum to set
+     * @return True if the game should continue running
+     */
+    bool handleEvents(Input& input) override;
 
     /**
      * @brief Load textures and other resources
@@ -112,6 +130,8 @@ class SFMLRenderer : public Renderer
     sf::Text scoreText;
     sf::Text gameOverText;
     sf::Text pausedText;
+    sf::Text menuTitleText;
+    sf::Text menuItemText;
 
     // Drawing helper methods
     void drawBoard(const Board& board);
@@ -120,9 +140,15 @@ class SFMLRenderer : public Renderer
     void drawScore(int score);
     void drawGameState(bool gameOver, bool paused);
     void drawBackground();
+    void drawMenu(const std::string& title,
+                  const std::vector<std::string>& items,
+                  size_t selectedIndex);
 
     // Create default textures when actual textures can't be loaded
     void createDefaultTextures();
+
+    // Convert SFML events to our Input enum
+    Input convertSFMLEvent(const sf::Event& event);
 };
 
 } // namespace GreedySnake

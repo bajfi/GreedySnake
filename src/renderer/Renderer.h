@@ -1,9 +1,16 @@
 #pragma once
 
 #include "game/Game.h"
+#include "menu/Input.h"
+#include <cstddef> // for size_t
+#include <string>
+#include <vector>
 
 namespace GreedySnake
 {
+
+// Forward declaration
+class GameState;
 
 /**
  * @brief Abstract interface for game renderers
@@ -37,17 +44,34 @@ class Renderer
     virtual void render(const Game& game) = 0;
 
     /**
+     * @brief Render a game state (menu, settings, etc.)
+     * @param title The title to display (if applicable)
+     * @param items List of menu items (if applicable)
+     * @param selectedIndex Currently selected item index (if applicable)
+     */
+    virtual void renderMenu(const std::string& title,
+                            const std::vector<std::string>& items,
+                            size_t selectedIndex) = 0;
+
+    /**
      * @brief Check if the render window is still open
      * @return True if the window is open
      */
     virtual bool isWindowOpen() const = 0;
 
     /**
-     * @brief Handle input events from the window system
+     * @brief Handle input events from the window system for a Game object
      * @param game Reference to the game for processing input
      * @return True if the game should continue running
      */
     virtual bool handleEvents(Game& game) = 0;
+
+    /**
+     * @brief Handle input events from the window system
+     * @param input Reference to an Input enum to be filled with the detected input
+     * @return True if the game should continue running
+     */
+    virtual bool handleEvents(Input& input) = 0;
 };
 
 } // namespace GreedySnake

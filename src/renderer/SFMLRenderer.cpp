@@ -62,6 +62,15 @@ bool SFMLRenderer::loadResources()
     pausedText.setFillColor(sf::Color::Yellow);
     pausedText.setString("Paused. Press P to resume");
 
+    // Initialize menu text elements
+    menuTitleText.setFont(font);
+    menuTitleText.setCharacterSize(40);
+    menuTitleText.setFillColor(sf::Color::White);
+
+    menuItemText.setFont(font);
+    menuItemText.setCharacterSize(24);
+    menuItemText.setFillColor(sf::Color::White);
+
     // Initialize cell size with a default value for testing purposes
     // This will be recalculated during rendering with the actual board
     cellSize = 30.0f;
@@ -109,6 +118,28 @@ void SFMLRenderer::render(const Game& game)
 
     // Draw game state messages
     drawGameState(game.isGameOver(), game.isPaused());
+
+    // Display everything
+    window.display();
+}
+
+void SFMLRenderer::renderMenu(const std::string& title,
+                              const std::vector<std::string>& items,
+                              size_t selectedIndex)
+{
+    if (!window.isOpen())
+    {
+        return;
+    }
+
+    // Clear the window
+    window.clear(sf::Color(0, 32, 48));
+
+    // Draw the background
+    drawBackground();
+
+    // Draw the menu
+    drawMenu(title, items, selectedIndex);
 
     // Display everything
     window.display();
@@ -190,6 +221,69 @@ bool SFMLRenderer::handleEvents(Game& game)
     }
 
     return true;
+}
+
+bool SFMLRenderer::handleEvents(Input& input)
+{
+    // Default to no input
+    input = Input::NONE;
+
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+        {
+            window.close();
+            input = Input::QUIT;
+            return false;
+        }
+
+        // Handle keyboard events for menu navigation
+        if (event.type == sf::Event::KeyPressed)
+        {
+            input = convertSFMLEvent(event);
+            // Stop processing after the first meaningful input
+            if (input != Input::NONE)
+            {
+                break;
+            }
+        }
+    }
+
+    return true;
+}
+
+Input SFMLRenderer::convertSFMLEvent(const sf::Event& event)
+{
+    if (event.type != sf::Event::KeyPressed)
+        return Input::NONE;
+
+    switch (event.key.code)
+    {
+    case sf::Keyboard::Up:
+    case sf::Keyboard::W:
+        return Input::UP;
+    case sf::Keyboard::Down:
+    case sf::Keyboard::S:
+        return Input::DOWN;
+    case sf::Keyboard::Left:
+    case sf::Keyboard::A:
+        return Input::LEFT;
+    case sf::Keyboard::Right:
+    case sf::Keyboard::D:
+        return Input::RIGHT;
+    case sf::Keyboard::Return:
+    case sf::Keyboard::Space:
+        return Input::SELECT;
+    case sf::Keyboard::Escape:
+        return Input::BACK;
+    case sf::Keyboard::P:
+        return Input::PAUSE;
+    case sf::Keyboard::Q:
+        return Input::QUIT;
+    default:
+        return Input::NONE;
+    }
 }
 
 std::string SFMLRenderer::getWindowTitle() const
@@ -376,6 +470,44 @@ void SFMLRenderer::createDefaultTextures()
     sf::Image backgroundImage;
     backgroundImage.create(32, 32, sf::Color(0, 32, 48));
     backgroundTexture.loadFromImage(backgroundImage);
+}
+
+void SFMLRenderer::drawMenu(const std::string& title,
+                            const std::vector<std::string>& items,
+                            size_t selectedIndex)
+{
+    const float padding = 20.0f;
+    const float itemHeight = 40.0f;
+    const float startY = 150.0f;
+
+    // Draw title
+    menuTitleText.setString(title);
+    menuTitleText.setPosition((windowWidth - menuTitleText.getLocalBounds().width) / 2.0f, 50.0f);
+    window.draw(menuTitleText);
+
+    // Draw menu items
+    for (size_t i = 0; i < items.size(); ++i)
+    {
+        // Highlight selected item
+        if (i == selectedIndex)
+        {
+            menuItemText.setFillColor(sf::Color::Yellow);
+
+            // Draw selection indicator (arrow)
+            menuItemText.setString("> " + items[i]);
+        }
+        else
+        {
+            menuItemText.setFillColor(sf::Color::White);
+            menuItemText.setString("  " + items[i]);
+        }
+
+        // Center horizontally, position vertically
+        menuItemText.setPosition((windowWidth - menuItemText.getLocalBounds().width) / 2.0f,
+                                 startY + i * itemHeight);
+
+        window.draw(menuItemText);
+    }
 }
 
 } // namespace GreedySnake

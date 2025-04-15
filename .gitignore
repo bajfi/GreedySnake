@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+*.cursorignore
 
 # Compiled Object files
 *.slo
