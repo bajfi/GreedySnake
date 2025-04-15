@@ -64,7 +64,7 @@ void GameSettings::setSoundEnabled(bool enabled)
     soundEnabled = enabled;
 }
 
-bool GameSettings::saveToFile(const std::string& filename)
+bool GameSettings::saveToFile(const std::string& filename) const
 {
     try
     {

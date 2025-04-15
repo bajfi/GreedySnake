@@ -37,3 +37,6 @@ build/
 *.md
 !README.md
 *.log
+
+# scripts
+scripts/

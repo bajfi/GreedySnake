@@ -7,7 +7,7 @@ TextMenuItem::TextMenuItem(const std::string& labelText, std::function<void()> c
 {
     // Set the label in the base class
     this->label = labelText;
-    this->callback = callback;
+    this->callback = std::move(callback);
 }
 
 void TextMenuItem::execute()

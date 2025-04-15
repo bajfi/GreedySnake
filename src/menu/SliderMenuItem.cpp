@@ -10,7 +10,10 @@ SliderMenuItem::SliderMenuItem(const std::string& labelText,
                                int max,
                                int initialValue,
                                std::function<void(int)> valueCallback)
-    : minValue(min), maxValue(max), currentValue(initialValue), valueCallback(valueCallback)
+    : minValue(min),
+      maxValue(max),
+      currentValue(initialValue),
+      valueCallback(std::move(valueCallback))
 {
     // Set the label in the base class
     this->label = labelText;

@@ -71,7 +71,7 @@ void GameOverState::onPlayAgain()
 
     // Get the game settings from the GameApp
     GameApp* app = dynamic_cast<GameApp*>(stateManager->getOwner());
-    if (!app)
+    if (app == nullptr)
     {
         // Fallback if we can't get the app context
         GameSettings* settings = new GameSettings();

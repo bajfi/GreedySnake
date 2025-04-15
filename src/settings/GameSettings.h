@@ -86,7 +86,7 @@ class GameSettings
      * @param filename The file to save settings to
      * @return True if successful, false otherwise
      */
-    bool saveToFile(const std::string& filename = "settings.ini");
+    bool saveToFile(const std::string& filename = "settings.ini") const;
 
     /**
      * @brief Load settings from a file

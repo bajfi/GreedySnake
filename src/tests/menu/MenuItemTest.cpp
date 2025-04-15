@@ -76,7 +76,7 @@ class TestMenuItem : public MenuItem
     // Add callback setter
     void setCallback(std::function<void()> cb)
     {
-        this->callback = cb;
+        this->callback = std::move(cb);
     }
 
     bool rendered = false;

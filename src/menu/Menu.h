@@ -66,7 +66,7 @@ class Menu
      * @param renderer The renderer to use
      * @param title The title to display
      */
-    void render(Renderer& renderer, const std::string& title);
+    void render(Renderer& renderer, const std::string& title) const;
 
     /**
      * @brief Select the next item in the menu
@@ -81,7 +81,7 @@ class Menu
     /**
      * @brief Execute the currently selected item
      */
-    void executeSelected();
+    void executeSelected() const;
 
     /**
      * @brief Get the currently selected item

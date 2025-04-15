@@ -61,7 +61,7 @@ void MainMenuState::onStartGame()
     // Look up game settings from the application context
     // For now, we access it from GameApp
     GameApp* app = dynamic_cast<GameApp*>(stateManager->getOwner());
-    if (!app)
+    if (app == nullptr)
     {
         // Fallback if we can't get the app context
         GameSettings* settings = new GameSettings();
@@ -78,7 +78,7 @@ void MainMenuState::onSettings()
 {
     // Look up game settings from the application context
     GameApp* app = dynamic_cast<GameApp*>(stateManager->getOwner());
-    if (!app)
+    if (app == nullptr)
     {
         // Fallback if we can't get the app context
         GameSettings* settings = new GameSettings();

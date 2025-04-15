@@ -6,7 +6,7 @@ namespace GreedySnake
 ToggleMenuItem::ToggleMenuItem(const std::string& label,
                                bool initialState,
                                std::function<void(bool)> stateCallback)
-    : state(initialState), stateCallback(stateCallback)
+    : state(initialState), stateCallback(std::move(stateCallback))
 {
     this->label = label;
 }

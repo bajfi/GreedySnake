@@ -60,7 +60,7 @@ bool Menu::handleInput(Input input)
     return false;
 }
 
-void Menu::render(Renderer& renderer, const std::string& title)
+void Menu::render(Renderer& renderer, const std::string& title) const
 {
     renderer.renderMenu(title, getMenuItems(), getSelectedIndex());
 }
@@ -128,7 +128,7 @@ void Menu::selectPrevious()
     items[selectedIndex]->select();
 }
 
-void Menu::executeSelected()
+void Menu::executeSelected() const
 {
     auto selectedItem = getSelectedItem();
     if (selectedItem)
