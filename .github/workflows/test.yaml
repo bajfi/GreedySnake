@@ -16,7 +16,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake libsfml-dev libncurses5-dev
+        sudo apt-get install -y cmake libsfml-dev libncurses5-dev xvfb
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Debug
@@ -26,4 +26,8 @@ jobs:
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      run: ctest -C Debug -VV
+      # Run tests with Xvfb to provide a virtual display
+      run: |
+        Xvfb :99 -screen 0 1024x768x24 &
+        export DISPLAY=:99
+        ctest -C Debug -VV
