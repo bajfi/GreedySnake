@@ -24,6 +24,9 @@ void MainMenuState::enter()
 
     // Exit
     menu.addItem<TextMenuItem>("Exit", [this]() { onExit(); });
+
+    // Set instructions for the main menu
+    menu.setInstructions("Use ↑/↓ to select options, ↵ to confirm");
 }
 
 void MainMenuState::exit()

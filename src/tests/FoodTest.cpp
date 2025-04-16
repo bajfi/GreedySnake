@@ -47,22 +47,67 @@ TEST_F(FoodTest, GeneratePositionNearlyFull)
     // Reset the board
     board.reset();
 
-    // Fill almost the entire board with walls
+    // Create a set of positions to leave empty
+    std::vector<Position> emptyPositions;
+
+    // Add a few positions that are not on the snake to remain empty
+    emptyPositions.push_back(Position(1, 1));
+    emptyPositions.push_back(Position(8, 8));
+
+    // Fill most of the board with walls
     for (int y = 0; y < board.getHeight(); ++y)
     {
         for (int x = 0; x < board.getWidth(); ++x)
         {
-            // Leave only one cell empty for the food (not on the snake)
-            if (x != 0 || y != 0 || snake.containsPosition(Position(x, y)))
+            Position pos(x, y);
+
+            // Skip the positions we want to keep empty
+            bool keepEmpty = false;
+            for (const auto& emptyPos : emptyPositions)
             {
-                board.setCellType(Position(x, y), CellType::WALL);
+                if (pos == emptyPos)
+                {
+                    keepEmpty = true;
+                    break;
+                }
             }
+
+            // Also keep the snake positions empty
+            if (keepEmpty || snake.containsPosition(pos))
+            {
+                continue;
+            }
+
+            // Fill the rest with walls
+            board.setCellType(pos, CellType::WALL);
         }
     }
 
-    // Generate food position - should find the one empty spot
+    // Generate food position
     EXPECT_TRUE(food.generatePosition(board, snake));
-    EXPECT_EQ(food.getPosition(), Position(0, 0));
+
+    // Food should be placed on one of our empty positions
+    Position foodPos = food.getPosition();
+    bool isOnValidPos = false;
+
+    // Check if food is on one of our empty positions
+    for (const auto& emptyPos : emptyPositions)
+    {
+        if (foodPos == emptyPos)
+        {
+            isOnValidPos = true;
+            break;
+        }
+    }
+
+    // If food is not on our empty positions, check it's not on the snake
+    if (!isOnValidPos)
+    {
+        EXPECT_FALSE(snake.containsPosition(foodPos));
+
+        // And check it's on an empty cell
+        EXPECT_EQ(board.getCellType(foodPos), CellType::EMPTY);
+    }
 }
 
 // Test food generation when there's no valid position

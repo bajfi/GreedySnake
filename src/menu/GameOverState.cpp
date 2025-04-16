@@ -24,6 +24,9 @@ void GameOverState::enter()
 
     // Main menu option
     menu.addItem<TextMenuItem>("Main Menu", [this]() { onMainMenu(); });
+
+    // Set instructions for the game over menu
+    menu.setInstructions("Use ↑/↓ to select options, ↵ to confirm, Esc to return to main menu");
 }
 
 void GameOverState::exit()

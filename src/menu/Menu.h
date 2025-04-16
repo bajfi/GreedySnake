@@ -107,9 +107,22 @@ class Menu
      */
     [[nodiscard]] std::vector<std::string> getMenuItems() const;
 
+    /**
+     * @brief Set instructions for using the menu
+     * @param instructionsText The instructions text
+     */
+    void setInstructions(const std::string& instructionsText);
+
+    /**
+     * @brief Get the instructions for using the menu
+     * @return Instructions text
+     */
+    const std::string& getInstructions() const;
+
   private:
     std::vector<std::shared_ptr<MenuItem>> items;
     size_t selectedIndex;
+    std::string instructions;
 };
 
 } // namespace GreedySnake

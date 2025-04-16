@@ -6,7 +6,7 @@
 namespace GreedySnake
 {
 
-Menu::Menu() : selectedIndex(0)
+Menu::Menu() : selectedIndex(0), instructions("")
 {
 }
 
@@ -75,7 +75,7 @@ bool Menu::handleInput(Input input)
 
 void Menu::render(Renderer& renderer, const std::string& title) const
 {
-    renderer.renderMenu(title, getMenuItems(), getSelectedIndex());
+    renderer.renderMenu(title, getMenuItems(), getSelectedIndex(), instructions);
 }
 
 std::shared_ptr<MenuItem> Menu::getSelectedItem() const
@@ -174,6 +174,16 @@ std::vector<std::string> Menu::getMenuItems() const
         result.push_back(item->getDisplayString());
     }
     return result;
+}
+
+void Menu::setInstructions(const std::string& instructionsText)
+{
+    instructions = instructionsText;
+}
+
+const std::string& Menu::getInstructions() const
+{
+    return instructions;
 }
 
 } // namespace GreedySnake

@@ -54,6 +54,19 @@ void Board::reset()
             grid[y][x] = CellType::EMPTY;
         }
     }
+
+    // Set border cells to WALL
+    for (int x = 0; x < width; ++x)
+    {
+        grid[0][x] = CellType::WALL;          // Top border
+        grid[height - 1][x] = CellType::WALL; // Bottom border
+    }
+
+    for (int y = 0; y < height; ++y)
+    {
+        grid[y][0] = CellType::WALL;         // Left border
+        grid[y][width - 1] = CellType::WALL; // Right border
+    }
 }
 
 } // namespace GreedySnake

@@ -36,7 +36,8 @@ class MockRenderer : public Renderer
     }
     void renderMenu(const std::string& title,
                     const std::vector<std::string>& items,
-                    size_t selectedIndex) override
+                    size_t selectedIndex,
+                    const std::string& instructions = "") override
     {
     }
 };

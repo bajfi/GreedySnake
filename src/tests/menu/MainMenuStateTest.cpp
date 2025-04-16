@@ -34,9 +34,19 @@ class MockRenderer : public Renderer
     }
     void renderMenu(const std::string& title,
                     const std::vector<std::string>& items,
-                    size_t selectedIndex) override
+                    size_t selectedIndex,
+                    const std::string& instructions = "") override
     {
+        lastTitle = title;
+        lastItems = items;
+        lastSelectedIndex = selectedIndex;
+        lastInstructions = instructions;
     }
+
+    std::string lastTitle;
+    std::vector<std::string> lastItems;
+    size_t lastSelectedIndex = 0;
+    std::string lastInstructions;
 };
 
 class MainMenuStateTest : public ::testing::Test

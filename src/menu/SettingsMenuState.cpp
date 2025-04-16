@@ -58,6 +58,9 @@ void SettingsMenuState::enter()
 
     // 7. Cancel
     menu.addItem<TextMenuItem>("Cancel", [this]() { onCancel(); });
+
+    // Set instructions for the settings menu
+    menu.setInstructions("Use ↑/↓ to select options, ←/→ to adjust values, ↵ to toggle/confirm");
 }
 
 void SettingsMenuState::exit()

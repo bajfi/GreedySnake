@@ -48,10 +48,12 @@ class Renderer
      * @param title The title to display (if applicable)
      * @param items List of menu items (if applicable)
      * @param selectedIndex Currently selected item index (if applicable)
+     * @param instructions Optional instructions to display below the menu
      */
     virtual void renderMenu(const std::string& title,
                             const std::vector<std::string>& items,
-                            size_t selectedIndex) = 0;
+                            size_t selectedIndex,
+                            const std::string& instructions = "") = 0;
 
     /**
      * @brief Check if the render window is still open

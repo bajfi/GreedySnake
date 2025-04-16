@@ -22,7 +22,17 @@ class MockRenderer : public Renderer
     void render(const Game& game) override
     {
     }
-    [[nodiscard]] bool isWindowOpen() const override
+    void renderMenu(const std::string& title,
+                    const std::vector<std::string>& items,
+                    size_t selectedIndex,
+                    const std::string& instructions = "") override
+    {
+        lastTitle = title;
+        lastMenuItems = items;
+        lastSelectedIndex = selectedIndex;
+        lastInstructions = instructions;
+    }
+    bool isWindowOpen() const override
     {
         return true;
     }
@@ -34,11 +44,11 @@ class MockRenderer : public Renderer
     {
         return true;
     }
-    void renderMenu(const std::string& title,
-                    const std::vector<std::string>& items,
-                    size_t selectedIndex) override
-    {
-    }
+
+    std::string lastTitle;
+    std::vector<std::string> lastMenuItems;
+    size_t lastSelectedIndex = 0;
+    std::string lastInstructions;
 };
 
 // Test fixture for Menu tests

@@ -5,7 +5,12 @@ namespace GreedySnake
 {
 
 SFMLRenderer::SFMLRenderer(int width, int height, const std::string& title)
-    : windowTitle(title), windowWidth(width), windowHeight(height), cellSize(0.0f)
+    : windowTitle(title),
+      windowWidth(width),
+      windowHeight(height),
+      cellSize(0.0f),
+      currentBoardWidth(20),
+      currentBoardHeight(20) // Default to 20x20
 {
 }
 
@@ -42,8 +47,15 @@ bool SFMLRenderer::loadResources()
     // Load font for text elements
     if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"))
     {
-        std::cerr << "Failed to load font!" << std::endl;
-        // Use default system font
+        std::cerr << "Failed to load primary font, trying alternatives..." << std::endl;
+        // Try loading alternative fonts with better Unicode support
+        if (!font.loadFromFile("/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf") &&
+            !font.loadFromFile("/usr/share/fonts/truetype/freefont/FreeSans.ttf") &&
+            !font.loadFromFile("/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"))
+        {
+            std::cerr << "Failed to load any fonts!" << std::endl;
+            return false;
+        }
     }
 
     // Initialize text elements
@@ -90,6 +102,11 @@ void SFMLRenderer::render(const Game& game)
 
     // Update cell size based on the board dimensions
     const Board& board = game.getBoard();
+
+    // Store the current board dimensions
+    currentBoardWidth = board.getWidth();
+    currentBoardHeight = board.getHeight();
+
     cellSize =
         std::min(static_cast<float>(windowWidth) / board.getWidth(),
                  static_cast<float>(windowHeight - 60) / board.getHeight() // Leave space for score
@@ -125,7 +142,8 @@ void SFMLRenderer::render(const Game& game)
 
 void SFMLRenderer::renderMenu(const std::string& title,
                               const std::vector<std::string>& items,
-                              size_t selectedIndex)
+                              size_t selectedIndex,
+                              const std::string& instructions)
 {
     if (!window.isOpen())
     {
@@ -139,7 +157,7 @@ void SFMLRenderer::renderMenu(const std::string& title,
     drawBackground();
 
     // Draw the menu
-    drawMenu(title, items, selectedIndex);
+    drawMenu(title, items, selectedIndex, instructions);
 
     // Display everything
     window.display();
@@ -309,8 +327,9 @@ float SFMLRenderer::getCellSize() const
 sf::Vector2f SFMLRenderer::gameToScreenPosition(const Position& position) const
 {
     // Calculate the top-left corner of the game board
-    const float offsetX = (windowWidth - cellSize * 20) / 2.0f;            // Assuming 20x20 board
-    const float offsetY = (windowHeight - cellSize * 20 - 30) / 2.0f + 30; // Space for score
+    const float offsetX = (windowWidth - cellSize * currentBoardWidth) / 2.0f;
+    const float offsetY =
+        (windowHeight - cellSize * currentBoardHeight - 30) / 2.0f + 30; // Space for score
 
     return sf::Vector2f(offsetX + position.x * cellSize, offsetY + position.y * cellSize);
 }
@@ -350,8 +369,8 @@ void SFMLRenderer::drawSnake(const Snake& snake)
         return;
 
     // Calculate board offset to center it
-    float offsetX = (windowWidth - cellSize * 20) / 2.0f; // Assuming 20x20 board
-    float offsetY = (windowHeight - cellSize * 20 - 30) / 2.0f + 30;
+    float offsetX = (windowWidth - cellSize * currentBoardWidth) / 2.0f;
+    float offsetY = (windowHeight - cellSize * currentBoardHeight - 30) / 2.0f + 30;
 
     // Draw the head
     sf::CircleShape headShape(cellSize / 2.f);
@@ -374,8 +393,8 @@ void SFMLRenderer::drawSnake(const Snake& snake)
 void SFMLRenderer::drawFood(const Food& food)
 {
     // Calculate board offset to center it
-    float offsetX = (windowWidth - cellSize * 20) / 2.0f; // Assuming 20x20 board
-    float offsetY = (windowHeight - cellSize * 20 - 30) / 2.0f + 30;
+    float offsetX = (windowWidth - cellSize * currentBoardWidth) / 2.0f;
+    float offsetY = (windowHeight - cellSize * currentBoardHeight - 30) / 2.0f + 30;
 
     // Draw the food
     sf::CircleShape foodShape(cellSize / 2.5f);
@@ -474,14 +493,15 @@ void SFMLRenderer::createDefaultTextures()
 
 void SFMLRenderer::drawMenu(const std::string& title,
                             const std::vector<std::string>& items,
-                            size_t selectedIndex)
+                            size_t selectedIndex,
+                            const std::string& instructions)
 {
     const float padding = 20.0f;
     const float itemHeight = 40.0f;
     const float startY = 150.0f;
 
     // Draw title
-    menuTitleText.setString(title);
+    menuTitleText.setString(sf::String::fromUtf8(title.begin(), title.end()));
     menuTitleText.setPosition((windowWidth - menuTitleText.getLocalBounds().width) / 2.0f, 50.0f);
     window.draw(menuTitleText);
 
@@ -494,12 +514,14 @@ void SFMLRenderer::drawMenu(const std::string& title,
             menuItemText.setFillColor(sf::Color::Yellow);
 
             // Draw selection indicator (arrow)
-            menuItemText.setString("> " + items[i]);
+            sf::String itemText = sf::String::fromUtf8(items[i].begin(), items[i].end());
+            menuItemText.setString("> " + itemText);
         }
         else
         {
             menuItemText.setFillColor(sf::Color::White);
-            menuItemText.setString("  " + items[i]);
+            sf::String itemText = sf::String::fromUtf8(items[i].begin(), items[i].end());
+            menuItemText.setString("  " + itemText);
         }
 
         // Center horizontally, position vertically
@@ -507,6 +529,27 @@ void SFMLRenderer::drawMenu(const std::string& title,
                                  startY + i * itemHeight);
 
         window.draw(menuItemText);
+    }
+
+    // Draw instructions if provided
+    if (!instructions.empty())
+    {
+        sf::Text instructionsText;
+        instructionsText.setFont(font);
+        instructionsText.setCharacterSize(16);
+        instructionsText.setFillColor(sf::Color(150, 150, 150)); // Light gray
+
+        // Convert UTF-8 string to sf::String for proper Unicode display
+        sf::String utf8Instructions =
+            sf::String::fromUtf8(instructions.begin(), instructions.end());
+        instructionsText.setString(utf8Instructions);
+
+        // Position at bottom of menu items with some spacing
+        float instructionsY = startY + items.size() * itemHeight + 40.0f;
+        instructionsText.setPosition((windowWidth - instructionsText.getLocalBounds().width) / 2.0f,
+                                     instructionsY);
+
+        window.draw(instructionsText);
     }
 }
 

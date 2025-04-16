@@ -79,6 +79,20 @@ bool Game::update()
         return false;
     }
 
+    // Clear the board (keep walls)
+    for (int y = 0; y < board.getHeight(); ++y)
+    {
+        for (int x = 0; x < board.getWidth(); ++x)
+        {
+            // Skip border cells
+            if (x == 0 || y == 0 || x == board.getWidth() - 1 || y == board.getHeight() - 1)
+            {
+                continue;
+            }
+            board.setCellType(Position(x, y), CellType::EMPTY);
+        }
+    }
+
     // Move snake
     Position newHead = snake.move();
 
@@ -90,6 +104,9 @@ bool Game::update()
     {
         board.setCellType(pos, CellType::SNAKE);
     }
+
+    // Make sure food is on the board
+    board.setCellType(food.getPosition(), CellType::FOOD);
 
     return !gameOver;
 }

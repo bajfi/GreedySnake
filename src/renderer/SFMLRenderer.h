@@ -50,10 +50,12 @@ class SFMLRenderer : public Renderer
      * @param title The title to display
      * @param items List of menu items to display
      * @param selectedIndex Index of the currently selected item
+     * @param instructions Optional instructions to display below the menu
      */
     void renderMenu(const std::string& title,
                     const std::vector<std::string>& items,
-                    size_t selectedIndex) override;
+                    size_t selectedIndex,
+                    const std::string& instructions = "") override;
 
     /**
      * @brief Check if the SFML window is still open
@@ -118,6 +120,8 @@ class SFMLRenderer : public Renderer
     int windowWidth;
     int windowHeight;
     float cellSize;
+    int currentBoardWidth;  // Track current board width
+    int currentBoardHeight; // Track current board height
 
     // Game textures and sprites
     sf::Texture snakeHeadTexture;
@@ -142,7 +146,8 @@ class SFMLRenderer : public Renderer
     void drawBackground();
     void drawMenu(const std::string& title,
                   const std::vector<std::string>& items,
-                  size_t selectedIndex);
+                  size_t selectedIndex,
+                  const std::string& instructions = "");
 
     // Create default textures when actual textures can't be loaded
     void createDefaultTextures();
