@@ -20,6 +20,8 @@ A modern C++ implementation of the classic Snake game using SFML for graphical r
 
 ```bash
 # Clone the repository
+git clone https://github.com/bajfi/GreedySnake.git
+
 cd GreedySnake
 
 # Create a build directory

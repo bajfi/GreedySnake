@@ -63,24 +63,19 @@ int GameOverState::getFinalScore() const
 
 void GameOverState::onPlayAgain()
 {
-    // Pop this game over state
-    stateManager->popState();
-
-    // Pop the ended game state
-    stateManager->popState();
-
     // Get the game settings from the GameApp
     GameApp* app = dynamic_cast<GameApp*>(stateManager->getOwner());
     if (app == nullptr)
     {
         // Fallback if we can't get the app context
         GameSettings* settings = new GameSettings();
-        stateManager->pushState(std::make_unique<GamePlayState>(stateManager, settings));
+        stateManager->changeState(std::make_unique<GamePlayState>(stateManager, settings));
     }
     else
     {
-        // Use app's settings
-        stateManager->pushState(std::make_unique<GamePlayState>(stateManager, app->getSettings()));
+        // Use app's settings and create a new game play state
+        stateManager->changeState(
+            std::make_unique<GamePlayState>(stateManager, app->getSettings()));
     }
 }
 

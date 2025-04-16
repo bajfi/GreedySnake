@@ -10,6 +10,7 @@ GameSettings::GameSettings()
       boardWidth(20),    // Default board width
       boardHeight(20),   // Default board height
       borders(true),     // Border collisions enabled by default
+      walls(false),      // Walls disabled by default
       soundEnabled(true) // Sound enabled by default
 {
 }
@@ -54,6 +55,16 @@ void GameSettings::setBorders(bool enabled)
     borders = enabled;
 }
 
+bool GameSettings::isWallsEnabled() const
+{
+    return walls;
+}
+
+void GameSettings::setWallsEnabled(bool enabled)
+{
+    walls = enabled;
+}
+
 bool GameSettings::isSoundEnabled() const
 {
     return soundEnabled;
@@ -79,6 +90,7 @@ bool GameSettings::saveToFile(const std::string& filename) const
         file << "boardWidth=" << boardWidth << '\n';
         file << "boardHeight=" << boardHeight << '\n';
         file << "borders=" << (borders ? "true" : "false") << '\n';
+        file << "walls=" << (walls ? "true" : "false") << '\n';
         file << "soundEnabled=" << (soundEnabled ? "true" : "false") << '\n';
 
         file.close();
@@ -151,6 +163,10 @@ bool GameSettings::loadFromFile(const std::string& filename)
             else if (key == "borders")
             {
                 setBorders(value == "true");
+            }
+            else if (key == "walls")
+            {
+                setWallsEnabled(value == "true");
             }
             else if (key == "soundEnabled")
             {

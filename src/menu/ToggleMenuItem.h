@@ -23,6 +23,9 @@ class ToggleMenuItem : public MenuItem
     // Render the toggle menu item
     void render(Renderer& renderer) override;
 
+    // Get the display string with the current state (On/Off)
+    [[nodiscard]] std::string getDisplayString() const override;
+
     // Toggle the state and call the callback
     void toggle();
 

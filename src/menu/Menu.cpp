@@ -1,4 +1,6 @@
 #include "menu/Menu.h"
+#include "menu/SliderMenuItem.h"
+#include "menu/ToggleMenuItem.h"
 #include <algorithm>
 
 namespace GreedySnake
@@ -29,6 +31,17 @@ bool Menu::handleInput(Input input)
 
     if (input == Input::SELECT)
     {
+        auto selectedItem = getSelectedItem();
+
+        // Check if it's a toggle item first
+        auto toggleItem = std::dynamic_pointer_cast<ToggleMenuItem>(selectedItem);
+        if (toggleItem)
+        {
+            toggleItem->toggle();
+            return true;
+        }
+
+        // Otherwise execute the standard action
         executeSelected();
         return true;
     }
@@ -158,7 +171,7 @@ std::vector<std::string> Menu::getMenuItems() const
     std::vector<std::string> result;
     for (const auto& item : items)
     {
-        result.push_back(item->getLabel());
+        result.push_back(item->getDisplayString());
     }
     return result;
 }

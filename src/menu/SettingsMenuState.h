@@ -41,6 +41,7 @@ class SettingsMenuState : public GameState
     void processInput(Input input) override;
     void update(float deltaTime) override;
     void render(Renderer& renderer) override;
+    Status getStatus() const override;
 
     /**
      * @brief Get the number of menu items for testing
@@ -63,12 +64,14 @@ class SettingsMenuState : public GameState
     GameSettings* settings;
     GameSettings tempSettings; // For storing changes before committing
     Menu menu;
+    Status currentStatus = Status::Running;
 
     // Callback methods for menu items
     void onGameSpeedChange(int value);
     void onBoardWidthChange(int value);
     void onBoardHeightChange(int value);
     void onToggleBorders(bool enabled);
+    void onToggleWalls(bool enabled);
     void onToggleSound(bool enabled);
     void onSaveSettings();
     void onCancel();

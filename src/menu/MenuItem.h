@@ -24,6 +24,12 @@ class MenuItem
         return label;
     }
 
+    // Get the display string for the menu item (including value for sliders, etc.)
+    [[nodiscard]] virtual std::string getDisplayString() const
+    {
+        return label;
+    }
+
     // Check if the menu item is currently selected
     [[nodiscard]] bool isSelected() const
     {

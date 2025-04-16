@@ -25,6 +25,9 @@ class SliderMenuItem : public MenuItem
     // Render the slider menu item
     void render(Renderer& renderer) override;
 
+    // Get the display string with the current value
+    [[nodiscard]] std::string getDisplayString() const override;
+
     // Increment the value and call the callback
     void increment();
 

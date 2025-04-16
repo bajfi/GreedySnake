@@ -1,5 +1,7 @@
 #include "menu/MenuItem.h"
 #include "menu/Menu.h"
+#include "menu/SliderMenuItem.h"
+#include "menu/ToggleMenuItem.h"
 #include "renderer/Renderer.h"
 #include <functional>
 #include <gtest/gtest.h>
@@ -62,6 +64,7 @@ class TestMenuItem : public MenuItem
 
     void execute() override
     {
+        executed = true;
         if (callback)
         {
             callback();
@@ -73,6 +76,22 @@ class TestMenuItem : public MenuItem
         rendered = true;
     }
 
+    bool isExecuted() const
+    {
+        return executed;
+    }
+
+    bool isRendered() const
+    {
+        return rendered;
+    }
+
+    void reset()
+    {
+        executed = false;
+        rendered = false;
+    }
+
     // Add callback setter
     void setCallback(std::function<void()> cb)
     {
@@ -80,6 +99,7 @@ class TestMenuItem : public MenuItem
     }
 
     bool rendered = false;
+    bool executed = false;
 };
 
 TEST_F(MenuItemTest, MenuItemBasics)
@@ -188,4 +208,57 @@ TEST_F(MenuItemTest, MenuRender)
     // Verify the menu was rendered correctly
     EXPECT_EQ(menu.getItemCount(), 2);
     EXPECT_EQ(menu.getSelectedIndex(), 0);
+}
+
+// Test for direct menu input handling
+TEST(MenuTest, InputHandlingForSettings)
+{
+    Menu menu;
+
+    // Add slider item to the menu
+    int sliderValue = 5;
+    auto sliderItem = menu.addItem<SliderMenuItem>(
+        "Speed", 1, 10, sliderValue, [&sliderValue](int value) { sliderValue = value; });
+
+    // Add toggle item to the menu
+    bool toggleValue = false;
+    auto toggleItem = menu.addItem<ToggleMenuItem>(
+        "Enabled", toggleValue, [&toggleValue](bool value) { toggleValue = value; });
+
+    // Initial values
+    EXPECT_EQ(5, sliderValue);
+    EXPECT_FALSE(toggleValue);
+
+    // Test RIGHT arrow increases slider value
+    EXPECT_TRUE(menu.handleInput(Input::RIGHT));
+    EXPECT_EQ(6, sliderValue);
+
+    // Test LEFT arrow decreases slider value
+    EXPECT_TRUE(menu.handleInput(Input::LEFT));
+    EXPECT_EQ(5, sliderValue);
+
+    // Test multiple RIGHT increases
+    for (int i = 0; i < 3; i++)
+    {
+        menu.handleInput(Input::RIGHT);
+    }
+    EXPECT_EQ(8, sliderValue);
+
+    // Test multiple LEFT decreases
+    for (int i = 0; i < 2; i++)
+    {
+        menu.handleInput(Input::LEFT);
+    }
+    EXPECT_EQ(6, sliderValue);
+
+    // Navigate to toggle item
+    menu.handleInput(Input::DOWN);
+
+    // Test SELECT toggles the value
+    EXPECT_TRUE(menu.handleInput(Input::SELECT));
+    EXPECT_TRUE(toggleValue);
+
+    // Test toggle again
+    EXPECT_TRUE(menu.handleInput(Input::SELECT));
+    EXPECT_FALSE(toggleValue);
 }

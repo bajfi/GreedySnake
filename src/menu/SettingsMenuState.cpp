@@ -13,47 +13,50 @@ SettingsMenuState::SettingsMenuState(GameStateManager* stateManager, GameSetting
 
 void SettingsMenuState::enter()
 {
+    // Reset status
+    currentStatus = Status::Running;
+
     // Copy settings to temp settings
     tempSettings = *settings;
 
     // Create menu items with current settings values
     menu.clearItems();
 
-    // Game speed slider (1-10)
-    auto speedItem = menu.addItem<SliderMenuItem>("Game Speed",
-                                                  tempSettings.getGameSpeed(),
-                                                  1,
-                                                  10,
-                                                  [this](int value) { onGameSpeedChange(value); });
+    // 1. Game speed slider (1-10)
+    menu.addItem<SliderMenuItem>("Game Speed",
+                                 1,
+                                 10,
+                                 tempSettings.getGameSpeed(),
+                                 [this](int value) { onGameSpeedChange(value); });
 
-    // Board width slider (10-50)
+    // 2. Board width slider (10-50)
     menu.addItem<SliderMenuItem>("Board Width",
-                                 tempSettings.getBoardWidth(),
                                  10,
                                  50,
+                                 tempSettings.getBoardWidth(),
                                  [this](int value) { onBoardWidthChange(value); });
 
-    // Board height slider (10-30)
+    // 3. Board height slider (10-30)
     menu.addItem<SliderMenuItem>("Board Height",
-                                 tempSettings.getBoardHeight(),
                                  10,
                                  30,
+                                 tempSettings.getBoardHeight(),
                                  [this](int value) { onBoardHeightChange(value); });
 
-    // Toggle borders
+    // 4. Toggle walls
     menu.addItem<ToggleMenuItem>("Walls Enabled",
-                                 tempSettings.hasBorders(),
-                                 [this](bool enabled) { onToggleBorders(enabled); });
+                                 tempSettings.isWallsEnabled(),
+                                 [this](bool enabled) { onToggleWalls(enabled); });
 
-    // Toggle sound
+    // 5. Toggle sound
     menu.addItem<ToggleMenuItem>("Sound Enabled",
                                  tempSettings.isSoundEnabled(),
                                  [this](bool enabled) { onToggleSound(enabled); });
 
-    // Save settings
+    // 6. Save settings
     menu.addItem<TextMenuItem>("Save Settings", [this]() { onSaveSettings(); });
 
-    // Cancel
+    // 7. Cancel
     menu.addItem<TextMenuItem>("Cancel", [this]() { onCancel(); });
 }
 
@@ -77,6 +80,11 @@ void SettingsMenuState::render(Renderer& renderer)
     menu.render(renderer, "Settings");
 }
 
+GameState::Status SettingsMenuState::getStatus() const
+{
+    return currentStatus;
+}
+
 size_t SettingsMenuState::getMenuItemCount() const
 {
     return menu.getItemCount();
@@ -97,6 +105,11 @@ void SettingsMenuState::onBoardHeightChange(int value)
     tempSettings.setBoardHeight(value);
 }
 
+void SettingsMenuState::onToggleWalls(bool enabled)
+{
+    tempSettings.setWallsEnabled(enabled);
+}
+
 void SettingsMenuState::onToggleBorders(bool enabled)
 {
     tempSettings.setBorders(enabled);
@@ -112,12 +125,18 @@ void SettingsMenuState::onSaveSettings()
     // Copy temp settings to actual settings
     *settings = tempSettings;
 
+    // Set the status to finished
+    currentStatus = Status::Finished;
+
     // Return to previous menu
     stateManager->popState();
 }
 
 void SettingsMenuState::onCancel()
 {
+    // Set the status to finished
+    currentStatus = Status::Finished;
+
     // Discard changes and return to previous menu
     stateManager->popState();
 }

@@ -30,6 +30,13 @@ void SliderMenuItem::render(Renderer& renderer)
     // Rendering logic - this is handled by the renderer
 }
 
+std::string SliderMenuItem::getDisplayString() const
+{
+    std::stringstream ss;
+    ss << label << ": " << currentValue;
+    return ss.str();
+}
+
 void SliderMenuItem::increment()
 {
     int newValue = currentValue + 1; // Use step of 1

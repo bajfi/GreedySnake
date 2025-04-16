@@ -22,6 +22,11 @@ void ToggleMenuItem::render(Renderer& renderer)
     // Rendering logic - this is handled by the renderer
 }
 
+std::string ToggleMenuItem::getDisplayString() const
+{
+    return label + ": " + (state ? "On" : "Off");
+}
+
 void ToggleMenuItem::toggle()
 {
     state = !state;

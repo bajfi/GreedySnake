@@ -70,6 +70,18 @@ class GameSettings
     void setBorders(bool enabled);
 
     /**
+     * @brief Check if walls are enabled
+     * @return True if walls are enabled, false otherwise
+     */
+    [[nodiscard]] bool isWallsEnabled() const;
+
+    /**
+     * @brief Enable or disable walls
+     * @param enabled True to enable walls, false to disable them
+     */
+    void setWallsEnabled(bool enabled);
+
+    /**
      * @brief Check if sound is enabled
      * @return True if sound is enabled, false otherwise
      */
@@ -100,6 +112,7 @@ class GameSettings
     int boardWidth;    // Board width
     int boardHeight;   // Board height
     bool borders;      // Border collisions enabled
+    bool walls;        // Walls enabled
     bool soundEnabled; // Sound enabled
 
     /**
